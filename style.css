@@ -17,7 +17,14 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
 }
+#layout-background *{
+    color: whitesmoke;
+    font-family: 'Acme', sans-serif;
+}
 /* sections */
 #layout-sections{
     background-color: #090909;
+}
+#layout-sections *{
+    font-family: 'Catamaran', sans-serif;
 }
