@@ -12,6 +12,10 @@ isUser = (username) => {
     const userRegEx = /^(?=[a-zA-Z0-9._]{5,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
     return userRegEx.test(username)
 }
+isPassword = (password) => {
+    const passwordRegEx = /^[a-zA-Z0-9_!@#$%^&*()]{8,}$/
+    return passwordRegEx.test(password)
+}
 function validate() {
     let formGroup = document.getElementsByClassName("form-control"), values = [];
     let errorMsgbox = document.getElementsByClassName("text-muted")
@@ -20,7 +24,7 @@ function validate() {
     for (let i = 0; i < formGroup.length; i++) {
         values.push(formGroup[i].value || null)
     }
-    // is empty checker
+
     for (let i = values.length - 1; i >= 0; i--) {
         if (isEmpty(values[i])) {
             errorMsgbox[i].innerHTML = `please Enter your <span style="color : #CE4D3B ;">${sectionNames[i]}</span>`
@@ -31,7 +35,21 @@ function validate() {
             switch (i) {
                 case 0:
                     if (!isUser(values[i])) {
-                        errorMsgbox[i].innerHTML = `only <span class="yellow"> alphaNumeric </span> and <span class="yellow"> underline </span> allowed (from <span class="yellow"> 5 </span> to <span class="yellow"> 20 </span> char)`
+                        errorMsgbox[i].innerHTML = `only <span class="yellow"> alphaNumeric </span> and <span class="yellow"> underline </span> allowed (from <span class="yellow"> 5 </span> to <span class="yellow"> 20 </span> characters)`
+                        formGroup[i].focus();
+                        flag = true
+                    }
+                break;
+                case 1:
+                    if(!isPassword(values[i])){
+                        errorMsgbox[i].innerHTML = `password must <span class="yellow"> at least 8 </span> characters`
+                        formGroup[i].focus();
+                        flag = true
+                    }
+                break;
+                case 2:
+                    if(!isMatch(values[i],values[i-1])){
+                        errorMsgbox[i].innerHTML = `Password and confirm password <span class="yellow"> does not match </span>`
                         formGroup[i].focus();
                         flag = true
                     }
