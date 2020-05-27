@@ -54,6 +54,13 @@ function validate() {
                         flag = true
                     }
                 break;
+                case 3:
+                    if(!isEmail(values[i])){
+                        errorMsgbox[i].innerHTML = `<span class="yellow"> invalid email </span>`
+                        formGroup[i].focus();
+                        flag = true
+                    }
+                break;
             }
         }
         if (flag && !i) {
