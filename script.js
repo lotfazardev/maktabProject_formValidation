@@ -8,24 +8,37 @@ isAlphaNumerical = (text) => {
     const alphaNumrical = /^[a-zA-Z0-9_]*$/;
     return alphaNumrical.test(text)
 }
+isUser = (username) => {
+    const userRegEx = /^(?=[a-zA-Z0-9._]{5,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+    return userRegEx.test(username)
+}
 function validate() {
     let formGroup = document.getElementsByClassName("form-control"), values = [];
     let errorMsgbox = document.getElementsByClassName("text-muted")
-    let flag = false ;
-    const sectionNames = ["username","password","re-password","email","country"]
+    let flag = false;
+    const sectionNames = ["username", "password", "re-password", "email", "country"]
     for (let i = 0; i < formGroup.length; i++) {
         values.push(formGroup[i].value || null)
     }
     // is empty checker
-    for(let i = values.length - 1 ; i >= 0; i--){
-        if(isEmpty(values[i])){
+    for (let i = values.length - 1; i >= 0; i--) {
+        if (isEmpty(values[i])) {
             errorMsgbox[i].innerHTML = `please Enter your <span style="color : #CE4D3B ;">${sectionNames[i]}</span>`
             formGroup[i].focus();
             flag = true
-        }else{
+        } else {
             errorMsgbox[i].innerText = ""
+            switch (i) {
+                case 0:
+                    if (!isUser(values[i])) {
+                        errorMsgbox[i].innerHTML = `only <span class="yellow"> alphaNumeric </span> and <span class="yellow"> underline </span> allowed (from <span class="yellow"> 5 </span> to <span class="yellow"> 20 </span> char)`
+                        formGroup[i].focus();
+                        flag = true
+                    }
+                break;
+            }
         }
-        if(flag && !i){
+        if (flag && !i) {
             return false
         }
     }
